@@ -1,0 +1,41 @@
+---
+title: "Repeats annotation"
+subtitle: "Using multiple tools fot repeats annotation"
+author: "Constantinos Yeles (Konstantinos Geles)"
+date: "`r format(Sys.time(), '%a %b %d %Y')`"
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: 3
+  html_document:
+    toc: yes
+    toc_depth: 3
+    theme: paper 
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+## Setup the tools
+### RepeatModeler
+
+A de novo transposable element (TE) family identification and modeling package. It is included in the docker container of Dfam TE Tools.
+
+```{bash install docker}
+curl -sSLO https://github.com/Dfam-consortium/TETools/raw/master/dfam-tetools.sh
+chmod +x dfam-tetools.sh
+./dfam-tetools.sh
+```
+
+Following the instructions in https://github.com/Dfam-consortium/RepeatModeler we will build a database for RepeatModeler and then run it
+```{bash DB making}
+mkdir genome_DB
+BuildDatabase -name elephant elephant.fa
+
+nohup RepeatModeler -database genome_DB/my_genome_1 -pa 2 -srand 1821  -LTRStruct >& run.out &
+
+```
+
+
